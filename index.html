@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Map Editor</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <div id="tools-panel" class="collapsible active">
+            <h2 class="collapsible-header">Инструменты</h2>
+            <div class="collapsible-content">
+              <div class="file-buttons">
+                <button id="save-button">Сохранить</button>
+                <button id="load-button">Загрузить</button>
+                <button id="import-export-map" >Импорт/Экспорт</button>
+              </div>
+
+                <h3>Карты</h3>
+                <div class="dropdown">
+                    <ul id="map-list">
+                        </ul>
+                </div>
+                <div class="map-buttons">
+                    <button id="create-map">Создать карту</button>
+                    <button id="duplicate-map" disabled>Дублировать</button>
+                    <button id="rename-map" disabled>Переименовать</button>
+                    <button id="delete-map" disabled>Удалить</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="lists-panel">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="regions">Регионы</button>
+                <button class="tab-button" data-tab="objects">Объекты</button>
+            </div>
+
+            <div id="regions-list" class="tab-content active">
+                <h3>Регионы</h3>
+                <ul id="regions"></ul>
+                <button id="add-region">Добавить регион</button>
+
+                <div id="region-details">
+                  <h4>Вершины</h4>
+                  <ul id="region-items">
+                  </ul>
+                    <div>
+                      <input type="number" id="region-vertex-x" placeholder="X">
+                      <input type="number" id="region-vertex-y" placeholder="Y">
+                      <button id="add-region-vertex">Добавить вершину</button>
+                    </div>
+                    <div>
+                      <label for="region-color">Цвет линии:</label>
+                      <input type="color" id="region-color" value="#ff6600">
+
+                      <label for="region-line-width">Толщина:</label>
+                      <input type="number" id="region-line-width" value="2" min="1" step="0.5">
+
+                      <label for="region-fill-color">Цвет заливки:</label>
+                      <input type="color" id="region-fill-color" value="#ffffff">
+                      <label for="region-fill-enabled">Заливка:</label>
+                      <input type="checkbox" id="region-fill-enabled">
+                    </div>
+                    <button id="delete-region-button" disabled>Удалить регион</button>
+                </div>
+            </div>
+
+            <div id="objects-list" class="tab-content">
+                <h3>Объекты</h3>
+                <ul id="objects"></ul>
+                <button id="add-object">Добавить объект</button>
+              <div id="object-details">
+                <input type="text" id="object-name" placeholder="Имя объекта">
+                <input type="number" id="object-x" placeholder="X">
+                <input type="number" id="object-y" placeholder="Y">
+                <textarea id="object-description" placeholder="Описание"></textarea>
+                <button id="add-object-item">Добавить объект</button>
+                  <button id="delete-object-button" disabled>Удалить объект</button>
+              </div>
+            </div>
+        </div>
+    </aside>
+
+    <main id="content">
+        <div id="canvas-container">
+            <svg id="map-canvas"></svg>
+            <div id="zoom-controls">
+                <button id="zoom-in">+</button>
+                <button id="zoom-out">-</button>
+                <button id="fit-to-screen">⛶</button>
+            </div>
+        </div>
+
+       <div id="import-export-panel" class="collapsible">
+            <h2 class="collapsible-header">Настройки и Импорт</h2>
+            <div class="collapsible-content">
+                <div id="settings">
+                    <h3>Настройки</h3>
+                     </div>
+
+                <div id="object-import">
+                    <h3>Объекты</h3>
+                    <textarea id="object-import-textarea" placeholder="Имя [x y] (Описание)"></textarea>
+                    <button id="import-objects">Импортировать объекты</button>
+                </div>
+                <div id="region-import-export">
+                    <h3>Регионы</h3>
+                    <textarea id="region-import-export-textarea"></textarea>
+                    <button id="import-regions">Импортировать регионы</button>
+                </div>
+            </div>
+        </div>
+    </main>
+ <button id="toggle-panel-button"><span class="icon">⚙</span></button>
+
+    <div id="status-message"></div>
+
+      <div id="create-map-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2>Создать карту</h2>
+            <input type="text" id="new-map-name" placeholder="Название карты">
+            <button id="confirm-create-map">Создать</button>
+        </div>
+    </div>
+
+      <div id="rename-map-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2>Переименовать карту</h2>
+            <input type="text" id="new-map-rename" placeholder="Название карты">
+            <button id="confirm-rename-map">Переименовать</button>
+        </div>
+    </div>
+
+    <div id="import-export-map-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2>Импорт/Экспорт карты</h2>
+            <textarea id="map-data-textarea"></textarea>
+            <button id="import-map-button">Импортировать</button>
+            <button id="export-map-button">Экспортировать</button>
+        </div>
+    </div>
+
+      <div id="delete-map-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2>Вы точно хотите удалить карту?</h2>
+              <button id="no-delete-map">Нет</button>
+            <button id="yes-delete-map">Да</button>
+        </div>
+    </div>
+    <div id="edit-object-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">×</span>
+        <h2>Редактировать объект</h2>
+        <input type="text" id="edit-object-name" placeholder="Имя объекта">
+        <input type="number" id="edit-object-x" placeholder="X">
+        <input type="number" id="edit-object-y" placeholder="Y">
+        <textarea id="edit-object-description" placeholder="Описание"></textarea>
+        <label for="edit-object-color">Цвет:</label>
+        <input type="color" id="edit-object-color">
+
+        <label for="edit-object-image-url">URL изображения:</label>  
+        <input type="text" id="edit-object-image-url" placeholder="URL изображения">
+
+        <button id="save-object-changes">Сохранить</button>
+        <button class="cancel-button">Отмена</button>
+      </div>
+    </div>
+
+    <script type="module" src="scripts/app.js"></script>
+</body>
+</html>

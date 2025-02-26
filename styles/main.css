@@ -1,0 +1,395 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #f0f0f0;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+:root {
+    --primary-color: #ff6600;
+    --secondary-color: #121212;
+    --accent-color: #333;
+    --text-color: #f0f0f0;
+    --highlight-color: #ff6600;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #e65c00;
+}
+
+button:disabled {
+    background-color: #a5a5a5;
+    cursor: not-allowed;
+}
+button.cancel-button{
+   background-color: var(--accent-color);
+}
+
+textarea {
+  background-color: #222;
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  padding: 8px;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="color"]
+{
+   background-color: #222;
+  color: var(--text-color);
+  border: 1px solid var(--accent-color);
+  padding: 8px;
+  border-radius: 5px;
+}
+
+#sidebar {
+    width: 300px;
+    min-width: 250px;
+    background-color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: 100vh;
+    border-right: 1px solid var(--accent-color);
+}
+
+#tools-panel, #lists-panel {
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+#tools-panel {
+    padding-bottom: 10px;
+}
+
+.collapsible-header {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--accent-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collapsible-content {
+    padding: 10px;
+    display: grid;
+    gap: 5px;
+}
+
+.collapsible.active .collapsible-content {
+     display: grid;
+}
+
+.tabs {
+    display: flex;
+    gap: 5px;
+    padding: 0 10px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    background-color: var(--accent-color);
+    border: none;
+    cursor: pointer;
+}
+
+.tab-button.active {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
+#regions, #objects {
+    overflow-y: auto;
+    margin-bottom: 10px;
+    flex-grow: 1;
+}
+
+#content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden;
+    height: 100vh;
+}
+
+#canvas-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+
+}
+
+#map-canvas {
+    width: 100%;
+    height: 100%;
+    background-color: #222;
+}
+
+#zoom-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#zoom-controls button {
+    margin-bottom: 5px;
+}
+
+#import-export-panel {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    background-color: #1a1a1a;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    z-index: 10;
+    display: none;
+}
+
+#import-export-panel.active {
+    display: block;
+    z-index: 21;
+}
+
+#import-export-panel .collapsible-header {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--accent-color);
+}
+
+
+#object-import, #region-import-export, #settings {
+    margin-bottom: 15px;
+}
+
+#object-import h3, #region-import-export h3, #settings h3{
+    margin-bottom: 5px;
+}
+
+#toggle-panel-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+#status-message {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: none;
+}
+
+ .dropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+ #tools-panel h3{
+     margin-bottom: 5px;
+}
+#map-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#map-list li {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--accent-color);
+}
+
+#map-list li:last-child {
+    border-bottom: none;
+}
+
+#map-list li:hover {
+    background-color: var(--accent-color);
+}
+
+#map-list li.selected,
+#regions li.selected,
+#objects li.selected
+{
+    background-color: var(--highlight-color);
+    color: var(--secondary-color);
+    border-radius: 5px;
+    padding: 8px 12px;
+}
+
+#regions li {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.file-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+     gap: 5px;
+}
+
+.file-buttons button {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+ #regions, #objects{
+  display: flex;
+  flex-direction: column;
+}
+#region-details, #object-details {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#region-details {
+    display: none;
+}
+
+#region-items, #object-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+}
+#region-items li, #object-items li{
+   padding: 5px 0;
+}
+
+#region-details input[type="number"],
+#object-details input[type="text"],
+#object-details input[type="number"],
+#object-details textarea {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#region-details label {
+    margin-right: 5px;
+}
+
+#region-details input[type="color"],
+#region-details input[type="number"] {
+    margin-right: 10px;
+    max-width: 100px;
+}
+.map-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 30;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #1a1a1a;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid var(--accent-color);
+    width: 50%;
+    border-radius: 10px;
+}
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  cursor: pointer;
+}
+#rename-map-modal .modal-content{
+  width: 30%;
+}
+#delete-map-modal .modal-content{
+   width: 20%;
+}
+
+#edit-object-modal .modal-content {
+    width: 30%;
+}
+
+#edit-object-modal input[type="text"],
+#edit-object-modal input[type="number"],
+#edit-object-modal textarea,
+#edit-object-modal input[type="color"]
+{
+    margin-bottom: 10px;
+    width: 100%;
+}
